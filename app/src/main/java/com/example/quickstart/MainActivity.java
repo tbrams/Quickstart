@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -353,6 +354,7 @@ public class MainActivity extends Activity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
+            List<NavAid> navAids = new ArrayList<>();
             String spreadsheetId = "1G3rMDgZqItvOUVfxZOaIpTTg1YnR4UfxKvX9wEeZUkc";
             String range = "Sheet1!A2:H";
             List<String> results = new ArrayList<String>();
@@ -364,8 +366,15 @@ public class MainActivity extends Activity
                 results.add("Name\tLocation\tRange");
                 for (List row : values) {
                     results.add(row.get(0) + "\t" + row.get(3)+ "\t" + row.get(5));
+
+                    // create new NavAid object with this content
+                    NavAid navAid = new NavAid(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(),
+                            row.get(3).toString(), row.get(5).toString());
+                    navAids.add(navAid);
+                    Log.d("TBR:","New Navaid: "+navAid);
                 }
             }
+
             return results;
         }
 
